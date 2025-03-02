@@ -1,69 +1,84 @@
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 const CareerHero = () => {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
 
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            entry.target.classList.remove('opacity-0', 'translate-y-8');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (titleRef.current) observer.observe(titleRef.current);
+    if (textRef.current) observer.observe(textRef.current);
+
+    return () => {
+      if (titleRef.current) observer.unobserve(titleRef.current);
+      if (textRef.current) observer.unobserve(textRef.current);
+    };
+  }, []);
+
   return (
-    <div className="relative bg-black min-h-[90vh] flex items-center">
-      {/* Background Image with Overlay */}
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Overlay de fundo escuro */}
+      <div className="absolute inset-0 bg-black/70 z-10"></div>
+      
+      {/* Imagem de fundo */}
       <div className="absolute inset-0 z-0">
         <img 
-          src="public/lovable-uploads/2fa62d16-ff06-420f-a129-c43064495331.png" 
-          alt="Ambiente de trabalho" 
-          className="w-full h-full object-cover opacity-40"
+          src="https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
+          alt="Equipe trabalhando" 
+          className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black bg-opacity-70"></div>
       </div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          {/* Small text above title */}
-          <div className="mb-4 text-center">
-            <span className="text-white uppercase tracking-wider text-sm md:text-base">VAGAS DE TRABALHO</span>
+      
+      {/* Conteúdo centralizado */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 z-20 text-center">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-8">
+            <span className="uppercase text-xs tracking-widest text-yellowkite-primary block mb-4">VAGAS DE TRABALHO</span>
+            <h1 className="text-6xl md:text-8xl font-bold mb-6 text-white opacity-0 translate-y-8 transition-all duration-700 delay-200" ref={titleRef}>
+              Yellow<span className="text-yellowkite-primary">Kite</span>
+            </h1>
+            <p className="text-xl text-white/80 mb-8 opacity-0 translate-y-8 transition-all duration-700 delay-300" ref={textRef}>
+              Honrando e <span className="text-yellowkite-primary font-semibold">impulsionando empreendedores</span> de todo o Brasil.
+            </p>
+            <a 
+              href="#vagas" 
+              className="inline-flex items-center px-8 py-4 bg-yellowkite-primary text-black font-bold rounded-full hover:bg-yellowkite-primary/90 transition-all transform hover:scale-105"
+            >
+              Conheça as vagas
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
           </div>
           
-          {/* Main Title - Company Name */}
-          <h1 
-            className="text-6xl sm:text-7xl lg:text-8xl font-bold mb-8 text-white text-center" 
-            ref={titleRef}
-          >
-            Yellow Kite
-          </h1>
-          
-          {/* Logo and Tagline on right side */}
-          <div className="flex flex-col md:flex-row justify-between items-center mt-16">
-            <div className="w-full md:w-1/2">
-              <a 
-                href="#vagas" 
-                className="bg-yellowkite-primary hover:bg-yellowkite-primary/90 text-black font-medium py-3 px-8 rounded-md inline-flex items-center transition-all duration-300"
-              >
-                Conheça as vagas
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
-            </div>
-            
-            <div className="w-full md:w-1/2 mt-10 md:mt-0 flex justify-center md:justify-end">
-              <div className="text-right flex flex-col items-end">
-                <div className="mb-3">
-                  <div className="bg-white text-black p-3 rounded inline-flex items-center justify-center">
-                    <span className="font-bold text-xl">YK</span>
-                  </div>
-                </div>
-                <p className="text-lg text-white">
-                  Honrando e <span className="text-yellowkite-primary font-semibold">impulsionando</span>
-                </p>
-                <p className="text-lg text-white">
-                  <span className="font-semibold">empreendedores</span> de todo o mundo.
-                </p>
-              </div>
+          {/* Logo maior à direita (visível apenas em telas maiores) */}
+          <div className="hidden lg:block absolute top-1/2 right-20 transform -translate-y-1/2">
+            <div className="text-right">
+              <img 
+                src="/lovable-uploads/58df7fb2-1cd6-44df-81bb-09790f07c419.png" 
+                alt="Yellow Kite Logo" 
+                className="w-48 h-48 object-contain"
+              />
             </div>
           </div>
         </div>
       </div>
+      
+      {/* Elemento decorativo */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-yellowkite-dark to-transparent z-10"></div>
     </div>
   );
 };
