@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import NavBar from '@/components/NavBar';
 import CareerHero from '@/components/careers/CareerHero';
@@ -72,7 +73,7 @@ const Careers = () => {
           </div>
         </section>
         
-        <section className="fade-in-section">
+        <section id="vagas" className="fade-in-section">
           <JobSearch />
         </section>
         
