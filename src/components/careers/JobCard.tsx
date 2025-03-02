@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { MapPin, Clock, ChevronRight, ChevronDown } from 'lucide-react';
+import { MapPin, Clock, ChevronRight, ChevronDown, CheckCircle, Plus, Award, Coffee } from 'lucide-react';
 
 type JobProps = {
   job: {
@@ -10,11 +10,15 @@ type JobProps = {
     location: string;
     type: string;
     description: string;
+    requirements?: string[];
+    differentials?: string[];
+    benefits?: string[];
   };
 };
 
 const JobCard = ({ job }: JobProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   return (
     <div 
@@ -63,13 +67,62 @@ const JobCard = ({ job }: JobProps) => {
             <p className="text-gray-400">{job.description}</p>
           </div>
           
+          {showDetails && (
+            <div className="space-y-6 mb-6 animate-fade-in">
+              {job.requirements && job.requirements.length > 0 && (
+                <div>
+                  <h4 className="text-lg font-medium mb-3 text-white flex items-center">
+                    <CheckCircle className="h-5 w-5 mr-2 text-yellowkite-primary" />
+                    Requisitos
+                  </h4>
+                  <ul className="list-disc pl-5 text-gray-400 space-y-1">
+                    {job.requirements.map((req, index) => (
+                      <li key={index}>{req}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              {job.differentials && job.differentials.length > 0 && (
+                <div>
+                  <h4 className="text-lg font-medium mb-3 text-white flex items-center">
+                    <Plus className="h-5 w-5 mr-2 text-yellowkite-secondary" />
+                    Diferenciais
+                  </h4>
+                  <ul className="list-disc pl-5 text-gray-400 space-y-1">
+                    {job.differentials.map((diff, index) => (
+                      <li key={index}>{diff}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
+              {job.benefits && job.benefits.length > 0 && (
+                <div>
+                  <h4 className="text-lg font-medium mb-3 text-white flex items-center">
+                    <Coffee className="h-5 w-5 mr-2 text-yellowkite-accent" />
+                    Benefícios
+                  </h4>
+                  <ul className="list-disc pl-5 text-gray-400 space-y-1">
+                    {job.benefits.map((benefit, index) => (
+                      <li key={index}>{benefit}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          )}
+          
           <div className="flex flex-wrap gap-3">
-            <a
-              href={`/careers/job/${job.id}`}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowDetails(!showDetails);
+              }}
               className="inline-flex items-center px-4 py-2 bg-yellowkite-primary text-black rounded-md shadow-sm hover:bg-yellowkite-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary transition-all duration-300 font-medium"
             >
-              Ver detalhes
-            </a>
+              {showDetails ? "Ocultar detalhes" : "Ver detalhes"}
+            </button>
             <a
               href={`https://forms.yellowkite.com.br/job/${job.id}`}
               target="_blank"

@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Search, Filter, MapPin, BriefcaseIcon } from 'lucide-react';
 import JobCard from './JobCard';
@@ -10,6 +9,9 @@ type Job = {
   location: string;
   type: string;
   description: string;
+  requirements: string[];
+  differentials: string[];
+  benefits: string[];
 };
 
 const departments = [
@@ -32,7 +34,25 @@ const jobsData: Job[] = [
     department: "Performance e Dados",
     location: "Maceió",
     type: "Tempo Integral",
-    description: "Estamos buscando um analista de marketing digital para gerenciar campanhas de performance e analisar métricas de desempenho."
+    description: "Estamos buscando um analista de marketing digital para gerenciar campanhas de performance e analisar métricas de desempenho.",
+    requirements: [
+      "Formação em Marketing, Publicidade ou áreas correlatas",
+      "Experiência mínima de 2 anos com ferramentas de marketing digital",
+      "Conhecimento em Google Ads, Meta Ads e LinkedIn Ads",
+      "Habilidade com análise de dados e relatórios de performance"
+    ],
+    differentials: [
+      "Certificações Google Analytics e Google Ads",
+      "Experiência com ferramentas de automação de marketing",
+      "Conhecimento em SEO e estratégias de conteúdo"
+    ],
+    benefits: [
+      "Vale alimentação e refeição",
+      "Plano de saúde e odontológico",
+      "Bônus por performance",
+      "Horário flexível e day-off no aniversário",
+      "Ambiente descontraído e colaborativo"
+    ]
   },
   {
     id: 2,
@@ -40,7 +60,25 @@ const jobsData: Job[] = [
     department: "Conteúdo",
     location: "Maceió",
     type: "Tempo Integral",
-    description: "Procuramos um redator criativo para criar conteúdos envolventes para blogs, redes sociais e materiais promocionais."
+    description: "Procuramos um redator criativo para criar conteúdos envolventes para blogs, redes sociais e materiais promocionais.",
+    requirements: [
+      "Formação em Jornalismo, Letras ou Comunicação",
+      "Excelente capacidade de escrita e revisão",
+      "Conhecimento em SEO para conteúdo",
+      "Experiência com criação de conteúdo para diferentes plataformas"
+    ],
+    differentials: [
+      "Portfólio diversificado de textos",
+      "Conhecimento em copywriting",
+      "Experiência com estratégias de conteúdo"
+    ],
+    benefits: [
+      "Vale alimentação e refeição",
+      "Plano de saúde e odontológico",
+      "Bônus por performance",
+      "Horário flexível e day-off no aniversário",
+      "Ambiente descontraído e colaborativo"
+    ]
   },
   {
     id: 3,
@@ -48,7 +86,25 @@ const jobsData: Job[] = [
     department: "Redes Sociais",
     location: "Maceió",
     type: "Tempo Integral",
-    description: "Buscamos um profissional para gerenciar nossas redes sociais, criar estratégias de conteúdo e engajamento."
+    description: "Buscamos um profissional para gerenciar nossas redes sociais, criar estratégias de conteúdo e engajamento.",
+    requirements: [
+      "Experiência com gestão de redes sociais",
+      "Conhecimento em ferramentas de design como Photoshop e Canva",
+      "Habilidade com planejamento de conteúdo",
+      "Experiência com análise de métricas de mídias sociais"
+    ],
+    differentials: [
+      "Conhecimento em fotografia e edição de vídeos",
+      "Experiência com gestão de comunidades online",
+      "Conhecimento em Instagram, TikTok e LinkedIn Ads"
+    ],
+    benefits: [
+      "Vale alimentação e refeição",
+      "Plano de saúde e odontológico",
+      "Bônus por performance",
+      "Horário flexível e day-off no aniversário",
+      "Ambiente descontraído e colaborativo"
+    ]
   },
   {
     id: 4,
@@ -56,7 +112,25 @@ const jobsData: Job[] = [
     department: "Tecnologia",
     location: "Maceió",
     type: "Tempo Integral",
-    description: "Estamos procurando um desenvolvedor front-end para criar interfaces responsivas e intuitivas para nossos clientes."
+    description: "Estamos procurando um desenvolvedor front-end para criar interfaces responsivas e intuitivas para nossos clientes.",
+    requirements: [
+      "Experiência com HTML, CSS e JavaScript",
+      "Conhecimento em frameworks como React ou Vue.js",
+      "Habilidade com design responsivo e otimização de performance",
+      "Experiência com integração de APIs"
+    ],
+    differentials: [
+      "Conhecimento em TypeScript",
+      "Experiência com testes automatizados",
+      "Conhecimento em UX/UI design"
+    ],
+    benefits: [
+      "Vale alimentação e refeição",
+      "Plano de saúde e odontológico",
+      "Bônus por performance",
+      "Horário flexível e day-off no aniversário",
+      "Ambiente descontraído e colaborativo"
+    ]
   },
   {
     id: 5,
@@ -64,7 +138,25 @@ const jobsData: Job[] = [
     department: "Comercial",
     location: "Maceió",
     type: "Tempo Integral",
-    description: "Procuramos um consultor de vendas para prospectar clientes e apresentar nossas soluções de marketing digital."
+    description: "Procuramos um consultor de vendas para prospectar clientes e apresentar nossas soluções de marketing digital.",
+    requirements: [
+      "Experiência com vendas consultivas B2B",
+      "Conhecimento em técnicas de prospecção e negociação",
+      "Habilidade com apresentações e propostas comerciais",
+      "Experiência com CRM e gestão de pipeline de vendas"
+    ],
+    differentials: [
+      "Experiência no setor de marketing digital ou tecnologia",
+      "Carteira de clientes ativa",
+      "Conhecimento em metodologias de vendas como SPIN Selling"
+    ],
+    benefits: [
+      "Vale alimentação e refeição",
+      "Plano de saúde e odontológico",
+      "Comissões atrativas",
+      "Horário flexível e day-off no aniversário",
+      "Ambiente descontraído e colaborativo"
+    ]
   },
   {
     id: 6,
@@ -72,7 +164,25 @@ const jobsData: Job[] = [
     department: "Administrativo",
     location: "Maceió",
     type: "Tempo Integral",
-    description: "Buscamos um assistente administrativo para auxiliar nas rotinas administrativas e financeiras da empresa."
+    description: "Buscamos um assistente administrativo para auxiliar nas rotinas administrativas e financeiras da empresa.",
+    requirements: [
+      "Formação em Administração ou áreas correlatas",
+      "Conhecimento em rotinas administrativas e financeiras",
+      "Habilidade com organização e gestão de documentos",
+      "Experiência com atendimento e suporte interno"
+    ],
+    differentials: [
+      "Conhecimento em ferramentas de gestão financeira",
+      "Experiência em empresas de tecnologia ou agências",
+      "Conhecimento em inglês"
+    ],
+    benefits: [
+      "Vale alimentação e refeição",
+      "Plano de saúde e odontológico",
+      "Bônus por performance",
+      "Horário flexível e day-off no aniversário",
+      "Ambiente descontraído e colaborativo"
+    ]
   }
 ];
 
