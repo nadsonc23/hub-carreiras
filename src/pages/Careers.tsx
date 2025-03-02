@@ -49,14 +49,14 @@ const Careers = () => {
         <section className="fade-in-section" id="vagas">
           <div className="bg-yellowkite-dark/80 py-16 md:py-24 border-y border-yellowkite-dark/50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="max-w-3xl mx-auto text-center">
+              <div className="max-w-4xl mx-auto text-center">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">Nosso Perfil de Profissional</h2>
                 <p className="text-lg text-gray-400 mb-10">
                   Na Yellow Kite, buscamos pessoas apaixonadas, criativas e com sede de conhecimento. Valorizamos a diversidade de pensamentos e experiências, pois acreditamos que as melhores soluções nascem da colaboração entre diferentes perspectivas.
                 </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-                  <div className="bg-gradient-to-br from-yellowkite-dark/90 to-yellowkite-dark border-2 border-yellowkite-primary/30 p-6 rounded-xl shadow-lg hover:shadow-yellowkite-primary/20 transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-8 text-left">
+                  <div className="bg-gradient-to-br from-yellowkite-dark/90 to-yellowkite-dark border-2 border-yellowkite-primary/30 p-8 rounded-xl shadow-lg hover:shadow-yellowkite-primary/20 transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden">
                     <div className="absolute inset-0 bg-yellowkite-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="flex items-center mb-4">
                       <div className="bg-yellowkite-primary/10 p-3 rounded-lg mr-4">
@@ -69,7 +69,7 @@ const Careers = () => {
                     </p>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-yellowkite-dark/90 to-yellowkite-dark border-2 border-yellowkite-secondary/30 p-6 rounded-xl shadow-lg hover:shadow-yellowkite-secondary/20 transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden">
+                  <div className="bg-gradient-to-br from-yellowkite-dark/90 to-yellowkite-dark border-2 border-yellowkite-secondary/30 p-8 rounded-xl shadow-lg hover:shadow-yellowkite-secondary/20 transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden">
                     <div className="absolute inset-0 bg-yellowkite-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="flex items-center mb-4">
                       <div className="bg-yellowkite-secondary/10 p-3 rounded-lg mr-4">
@@ -82,7 +82,7 @@ const Careers = () => {
                     </p>
                   </div>
                   
-                  <div className="bg-gradient-to-br from-yellowkite-dark/90 to-yellowkite-dark border-2 border-yellowkite-accent/30 p-6 rounded-xl shadow-lg hover:shadow-yellowkite-accent/20 transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden">
+                  <div className="bg-gradient-to-br from-yellowkite-dark/90 to-yellowkite-dark border-2 border-yellowkite-accent/30 p-8 rounded-xl shadow-lg hover:shadow-yellowkite-accent/20 transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden">
                     <div className="absolute inset-0 bg-yellowkite-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                     <div className="flex items-center mb-4">
                       <div className="bg-yellowkite-accent/10 p-3 rounded-lg mr-4">
