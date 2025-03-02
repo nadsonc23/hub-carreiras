@@ -4,6 +4,7 @@ import NavBar from '../components/NavBar';
 import CareerHero from '../components/careers/CareerHero';
 import JobSearch from '../components/careers/JobSearch';
 import TalentPool from '../components/careers/TalentPool';
+import CompanyCulture from '../components/careers/CompanyCulture';
 
 const Careers = () => {
   useEffect(() => {
@@ -37,6 +38,11 @@ const Careers = () => {
       <main>
         {/* Hero section (full screen) */}
         <CareerHero />
+        
+        {/* Nossa Cultura Corporativa */}
+        <section className="fade-in-section">
+          <CompanyCulture />
+        </section>
         
         {/* Nossa Cultura e Perfil Profissional */}
         <section className="fade-in-section" id="vagas">
