@@ -1,7 +1,6 @@
 
 import { useState } from 'react';
-import { MapPin, Clock, ChevronRight, ChevronDown, CheckCircle, Plus, Award, Coffee, List, Briefcase, FileText, ExternalLink } from 'lucide-react';
-import { Button } from '../ui/button';
+import { MapPin, Clock, ChevronRight, ChevronDown, CheckCircle, Plus, Award, Coffee, List, Briefcase, FileText } from 'lucide-react';
 
 type JobProps = {
   job: {
@@ -11,27 +10,18 @@ type JobProps = {
     location: string;
     type: string;
     seniority: string;
-    employment: string;
+    employment: string; // Added employment type field
     description: string;
     activities?: string[];
     requirements?: string[];
     differentials?: string[];
     benefits?: string[];
-    bitrixJobId?: string; // Added for Bitrix24 integration
   };
 };
 
 const JobCard = ({ job }: JobProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-
-  // Construct the application URL - if we have a Bitrix job ID, use it, otherwise fallback to our form
-  const getApplyUrl = () => {
-    if (job.bitrixJobId) {
-      return `https://yourcompany.bitrix24.com/company/personal/user/1/tasks/task/view/${job.bitrixJobId}/`;
-    }
-    return `https://forms.yellowkite.com.br/job/${job.id}`;
-  };
 
   return (
     <div 
@@ -149,32 +139,23 @@ const JobCard = ({ job }: JobProps) => {
           )}
           
           <div className="flex flex-wrap gap-3">
-            <Button
+            <button
               onClick={(e) => {
                 e.stopPropagation();
                 setShowDetails(!showDetails);
               }}
-              variant="default"
-              className="bg-yellowkite-primary text-black hover:bg-yellowkite-primary/90"
+              className="inline-flex items-center px-4 py-2 bg-yellowkite-primary text-black rounded-md shadow-sm hover:bg-yellowkite-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary transition-all duration-300 font-medium"
             >
               {showDetails ? "Ocultar detalhes" : "Ver detalhes"}
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              className="border-yellowkite-primary text-yellowkite-primary hover:bg-yellowkite-primary/10"
+            </button>
+            <a
+              href={`https://forms.yellowkite.com.br/job/${job.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-4 py-2 border border-yellowkite-primary text-sm font-medium rounded-md text-yellowkite-primary bg-transparent hover:bg-yellowkite-primary/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary transition-all duration-300"
             >
-              <a
-                href={getApplyUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center"
-                onClick={(e) => e.stopPropagation()}
-              >
-                Candidatar-se
-                <ExternalLink className="ml-2 h-4 w-4" />
-              </a>
-            </Button>
+              Candidatar-se
+            </a>
           </div>
         </div>
       )}
