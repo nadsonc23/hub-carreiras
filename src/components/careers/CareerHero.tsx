@@ -63,17 +63,6 @@ const CareerHero = () => {
               </svg>
             </a>
           </div>
-          
-          {/* Logo maior à direita (visível apenas em telas maiores) */}
-          <div className="hidden lg:block absolute top-1/2 right-20 transform -translate-y-1/2">
-            <div className="text-right">
-              <img 
-                src="/lovable-uploads/58df7fb2-1cd6-44df-81bb-09790f07c419.png" 
-                alt="Yellow Kite Logo" 
-                className="w-48 h-48 object-contain"
-              />
-            </div>
-          </div>
         </div>
       </div>
       

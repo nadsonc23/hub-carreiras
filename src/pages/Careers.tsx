@@ -1,9 +1,9 @@
 
 import { useEffect } from 'react';
-import NavBar from '@/components/NavBar';
-import CareerHero from '@/components/careers/CareerHero';
-import JobSearch from '@/components/careers/JobSearch';
-import TalentPool from '@/components/careers/TalentPool';
+import NavBar from '../components/NavBar';
+import CareerHero from '../components/careers/CareerHero';
+import JobSearch from '../components/careers/JobSearch';
+import TalentPool from '../components/careers/TalentPool';
 
 const Careers = () => {
   useEffect(() => {

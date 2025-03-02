@@ -1,114 +1,47 @@
 
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out ${
-        isScrolled ? 'bg-yellowkite-darker/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
-      }`}
-    >
+    <header className="fixed w-full top-0 z-50 bg-black/80 backdrop-blur-md border-b border-yellowkite-dark/50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          <div className="flex-shrink-0">
-            <Link to="/" className="flex items-center">
-              <span className="text-2xl font-bold text-white">Yellow<span className="text-yellowkite-primary">Kite</span></span>
-            </Link>
-          </div>
+        <div className="flex justify-between items-center py-4">
+          {/* Logo */}
+          <Link to="/" className="flex items-center">
+            <span className="text-xl font-bold">Yellow<span className="text-yellowkite-primary">Kite</span></span>
+          </Link>
           
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-center space-x-8">
-              <Link to="/" className="text-white hover:text-yellowkite-primary px-3 py-2 text-sm font-medium transition-colors duration-300">
-                Home
-              </Link>
-              <Link to="/sobre" className="text-white hover:text-yellowkite-primary px-3 py-2 text-sm font-medium transition-colors duration-300">
-                Sobre
-              </Link>
-              <Link to="/servicos" className="text-white hover:text-yellowkite-primary px-3 py-2 text-sm font-medium transition-colors duration-300">
-                Serviços
-              </Link>
-              <Link to="/portfolio" className="text-white hover:text-yellowkite-primary px-3 py-2 text-sm font-medium transition-colors duration-300">
-                Portfólio
-              </Link>
-              <Link to="/blog" className="text-white hover:text-yellowkite-primary px-3 py-2 text-sm font-medium transition-colors duration-300">
-                Blog
-              </Link>
-              <Link to="/careers" className="text-white hover:text-yellowkite-primary px-3 py-2 text-sm font-medium transition-colors duration-300">
-                Trabalhe Conosco
-              </Link>
-              <Link to="/contato" className="bg-yellowkite-primary text-black hover:bg-yellowkite-primary/90 px-4 py-2 rounded-md text-sm font-medium transition-colors duration-300">
-                Contato
-              </Link>
-            </div>
-          </div>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <Link to="/" className="text-white hover:text-yellowkite-primary transition-colors">Home</Link>
+            <Link to="/careers" className="text-yellowkite-primary font-medium">Trabalhe Conosco</Link>
+          </nav>
           
-          <div className="-mr-2 flex md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-yellowkite-primary focus:outline-none"
-              aria-controls="mobile-menu"
-              aria-expanded="false"
-            >
-              <span className="sr-only">Abrir menu principal</span>
-              {isMenuOpen ? (
-                <X className="block h-6 w-6" aria-hidden="true" />
-              ) : (
-                <Menu className="block h-6 w-6" aria-hidden="true" />
-              )}
-            </button>
-          </div>
+          {/* Mobile Menu Button */}
+          <button
+            className="md:hidden text-white focus:outline-none"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
       </div>
-
-      <div
-        className={`md:hidden transition-all duration-300 ease-in-out ${
-          isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
-        }`}
-        id="mobile-menu"
-      >
-        <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-yellowkite-darker/95 backdrop-blur-sm shadow-lg">
-          <Link to="/" className="text-white hover:text-yellowkite-primary block px-3 py-2 rounded-md text-base font-medium">
-            Home
-          </Link>
-          <Link to="/sobre" className="text-white hover:text-yellowkite-primary block px-3 py-2 rounded-md text-base font-medium">
-            Sobre
-          </Link>
-          <Link to="/servicos" className="text-white hover:text-yellowkite-primary block px-3 py-2 rounded-md text-base font-medium">
-            Serviços
-          </Link>
-          <Link to="/portfolio" className="text-white hover:text-yellowkite-primary block px-3 py-2 rounded-md text-base font-medium">
-            Portfólio
-          </Link>
-          <Link to="/blog" className="text-white hover:text-yellowkite-primary block px-3 py-2 rounded-md text-base font-medium">
-            Blog
-          </Link>
-          <Link to="/careers" className="text-white hover:text-yellowkite-primary block px-3 py-2 rounded-md text-base font-medium">
-            Trabalhe Conosco
-          </Link>
-          <Link to="/contato" className="bg-yellowkite-primary text-black block px-3 py-2 rounded-md text-base font-medium">
-            Contato
-          </Link>
+      
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-yellowkite-darker/95 backdrop-blur-md animate-fade-in">
+          <div className="container mx-auto px-4 py-4">
+            <nav className="flex flex-col space-y-4">
+              <Link to="/" className="text-white hover:text-yellowkite-primary py-2 transition-colors">Home</Link>
+              <Link to="/careers" className="text-yellowkite-primary font-medium py-2">Trabalhe Conosco</Link>
+            </nav>
+          </div>
         </div>
-      </div>
+      )}
     </header>
   );
 };
