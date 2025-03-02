@@ -1,8 +1,12 @@
-
-import { useState, useEffect, useRef } from 'react';
-import { Search, Filter, MapPin, BriefcaseIcon, Briefcase } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import JobCard from './JobCard';
+import { Search, Filter, X } from 'lucide-react';
+import { Button } from '../ui/button';
+import { Input } from '../ui/input';
+import { Badge } from '../ui/badge';
+import { toast } from 'sonner';
 
+// Job type definition
 type Job = {
   id: number;
   title: string;
@@ -10,442 +14,574 @@ type Job = {
   location: string;
   type: string;
   seniority: string;
-  employment: string; // Added employment type (CLT or PJ)
+  employment: string;
   description: string;
   activities: string[];
   requirements: string[];
   differentials: string[];
   benefits: string[];
+  bitrixJobId?: string; // Added for Bitrix24 integration
 };
 
-const departments = [
-  "Todas as áreas",
-  "Performance e Dados",
-  "Conteúdo",
-  "Redes Sociais",
-  "Tecnologia",
-  "Comercial",
-  "Administrativo"
-];
-
-const locations = ["Maceió"];
-
-const seniorityLevels = [
-  "Todos os níveis",
-  "Estágio",
-  "Júnior",
-  "Pleno",
-  "Sênior",
-  "Especialista"
-];
-
-// Dados fictícios de vagas
-const jobsData: Job[] = [
+// Sample job data - this would be fetched from Bitrix24 API in production
+const initialJobs: Job[] = [
   {
     id: 1,
-    title: "Analista de Marketing Digital",
-    department: "Performance e Dados",
-    location: "Maceió",
-    type: "Tempo Integral",
-    seniority: "Pleno",
-    employment: "CLT",
-    description: "Estamos buscando um analista de marketing digital para gerenciar campanhas de performance e analisar métricas de desempenho.",
+    title: 'Desenvolvedor(a) Front-end',
+    department: 'Tecnologia',
+    location: 'Remoto',
+    type: 'CLT',
+    seniority: 'Pleno',
+    employment: 'Full-time',
+    description: 'Estamos buscando um(a) Desenvolvedor(a) Front-end apaixonado(a) por construir interfaces incríveis e que queira fazer parte de um time de alta performance.',
     activities: [
-      "Gerenciar campanhas de anúncios digitais",
-      "Analisar métricas de performance e elaborar relatórios",
-      "Otimizar campanhas para melhorar ROI",
-      "Trabalhar com equipe de criação para desenvolvimento de materiais",
-      "Manter-se atualizado sobre tendências e melhores práticas"
+      'Desenvolvimento de interfaces web responsivas e acessíveis.',
+      'Implementação de testes unitários e de integração.',
+      'Participação em discussões técnicas eCode Reviews.',
     ],
     requirements: [
-      "Formação em Marketing, Publicidade ou áreas correlatas",
-      "Experiência mínima de 2 anos com ferramentas de marketing digital",
-      "Conhecimento em Google Ads, Meta Ads e LinkedIn Ads",
-      "Habilidade com análise de dados e relatórios de performance"
+      'Experiência com React, HTML, CSS e JavaScript.',
+      'Conhecimento em testes automatizados.',
+      'Familiaridade com metodologias ágeis.',
     ],
     differentials: [
-      "Certificações Google Analytics e Google Ads",
-      "Experiência com ferramentas de automação de marketing",
-      "Conhecimento em SEO e estratégias de conteúdo"
+      'Conhecimento em Next.js.',
+      'Experiência com Storybook.',
+      'Inglês avançado.',
     ],
     benefits: [
-      "Vale alimentação e refeição",
-      "Plano de saúde e odontológico",
-      "Bônus por performance",
-      "Horário flexível e day-off no aniversário",
-      "Ambiente descontraído e colaborativo"
-    ]
+      'Plano de saúde e odontológico.',
+      'Vale alimentação e/ou refeição.',
+      'Seguro de vida.',
+      'Gympass.',
+      'Zenklub',
+    ],
   },
   {
     id: 2,
-    title: "Redator de Conteúdo",
-    department: "Conteúdo",
-    location: "Maceió",
-    type: "Tempo Integral",
-    seniority: "Júnior",
-    employment: "PJ",
-    description: "Procuramos um redator criativo para criar conteúdos envolventes para blogs, redes sociais e materiais promocionais.",
+    title: 'Analista de Marketing Digital',
+    department: 'Marketing',
+    location: 'Híbrido (Maceió - AL)',
+    type: 'PJ',
+    seniority: 'Sênior',
+    employment: 'Full-time',
+    description: 'Buscamos um(a) Analista de Marketing Digital para liderar nossas estratégias online e impulsionar o crescimento da Yellow Kite.',
     activities: [
-      "Produzir textos para blogs, sites e redes sociais",
-      "Criar roteiros para vídeos e podcasts",
-      "Desenvolver e-books, whitepapers e outros materiais ricos",
-      "Revisar textos para garantir qualidade e coerência",
-      "Pesquisar tendências e assuntos relevantes para o público-alvo"
+      'Planejamento e execução de campanhas de marketing digital.',
+      'Análise de métricas e otimização de resultados.',
+      'Gestão de redes sociais e produção de conteúdo.',
     ],
     requirements: [
-      "Formação em Jornalismo, Letras ou Comunicação",
-      "Excelente capacidade de escrita e revisão",
-      "Conhecimento em SEO para conteúdo",
-      "Experiência com criação de conteúdo para diferentes plataformas"
+      'Experiência em Google Ads, Facebook Ads e SEO.',
+      'Conhecimento em ferramentas de análise de dados.',
+      'Certificações em marketing digital.',
     ],
     differentials: [
-      "Portfólio diversificado de textos",
-      "Conhecimento em copywriting",
-      "Experiência com estratégias de conteúdo"
+      'Experiência com e-commerce.',
+      'Conhecimento em CRM.',
+      'Inglês avançado.',
     ],
     benefits: [
-      "Vale alimentação e refeição",
-      "Plano de saúde e odontológico",
-      "Bônus por performance",
-      "Horário flexível e day-off no aniversário",
-      "Ambiente descontraído e colaborativo"
-    ]
+      'Vale alimentação e/ou refeição.',
+      'Seguro de vida.',
+      'Gympass.',
+      'Zenklub',
+    ],
   },
   {
     id: 3,
-    title: "Social Media Manager",
-    department: "Redes Sociais",
-    location: "Maceió",
-    type: "Tempo Integral",
-    seniority: "Pleno",
-    employment: "CLT",
-    description: "Buscamos um profissional para gerenciar nossas redes sociais, criar estratégias de conteúdo e engajamento.",
+    title: 'Especialista em SEO',
+    department: 'Marketing',
+    location: 'Remoto',
+    type: 'CLT',
+    seniority: 'Sênior',
+    employment: 'Full-time',
+    description: 'Estamos à procura de um(a) Especialista em SEO para otimizar a presença online de nossos clientes e garantir o melhor posicionamento nos resultados de busca.',
     activities: [
-      "Gerenciar perfis em diversas plataformas de redes sociais",
-      "Desenvolver calendário editorial e estratégia de conteúdo",
-      "Analisar métricas de desempenho e engajamento",
-      "Coordenar com designers para criação de materiais visuais",
-      "Responder comentários e interagir com a comunidade online"
+      'Realização de auditorias de SEO e identificação de oportunidades de melhoria.',
+      'Implementação de estratégias de SEO on-page e off-page.',
+      'Acompanhamento de métricas e relatórios de desempenho.',
     ],
     requirements: [
-      "Experiência com gestão de redes sociais",
-      "Conhecimento em ferramentas de design como Photoshop e Canva",
-      "Habilidade com planejamento de conteúdo",
-      "Experiência com análise de métricas de mídias sociais"
+      'Experiência comprovada em SEO técnico e de conteúdo.',
+      'Conhecimento avançado em ferramentas de SEO (Google Search Console, SEMrush, etc.).',
+      'Familiaridade com algoritmos de busca e atualizações do Google.',
     ],
     differentials: [
-      "Conhecimento em fotografia e edição de vídeos",
-      "Experiência com gestão de comunidades online",
-      "Conhecimento em Instagram, TikTok e LinkedIn Ads"
+      'Experiência com SEO para e-commerce.',
+      'Conhecimento em otimização de taxa de conversão (CRO).',
+      'Inglês avançado.',
     ],
     benefits: [
-      "Vale alimentação e refeição",
-      "Plano de saúde e odontológico",
-      "Bônus por performance",
-      "Horário flexível e day-off no aniversário",
-      "Ambiente descontraído e colaborativo"
-    ]
+      'Plano de saúde e odontológico.',
+      'Vale alimentação e/ou refeição.',
+      'Seguro de vida.',
+      'Gympass.',
+      'Zenklub',
+    ],
   },
-  {
-    id: 4,
-    title: "Desenvolvedor Front-end",
-    department: "Tecnologia",
-    location: "Maceió",
-    type: "Tempo Integral",
-    seniority: "Sênior",
-    employment: "PJ",
-    description: "Estamos procurando um desenvolvedor front-end para criar interfaces responsivas e intuitivas para nossos clientes.",
-    activities: [
-      "Desenvolver interfaces de usuário responsivas e acessíveis",
-      "Implementar designs de UI/UX em código",
-      "Otimizar aplicações para máximo desempenho",
-      "Colaborar com designers e desenvolvedores back-end",
-      "Realizar testes e garantir compatibilidade cross-browser"
-    ],
-    requirements: [
-      "Experiência com HTML, CSS e JavaScript",
-      "Conhecimento em frameworks como React ou Vue.js",
-      "Habilidade com design responsivo e otimização de performance",
-      "Experiência com integração de APIs"
-    ],
-    differentials: [
-      "Conhecimento em TypeScript",
-      "Experiência com testes automatizados",
-      "Conhecimento em UX/UI design"
-    ],
-    benefits: [
-      "Vale alimentação e refeição",
-      "Plano de saúde e odontológico",
-      "Bônus por performance",
-      "Horário flexível e day-off no aniversário",
-      "Ambiente descontraído e colaborativo"
-    ]
-  },
-  {
-    id: 5,
-    title: "Consultor de Vendas",
-    department: "Comercial",
-    location: "Maceió",
-    type: "Tempo Integral",
-    seniority: "Pleno",
-    employment: "CLT",
-    description: "Procuramos um consultor de vendas para prospectar clientes e apresentar nossas soluções de marketing digital.",
-    activities: [
-      "Prospectar e qualificar leads de potenciais clientes",
-      "Realizar apresentações e demonstrações de produtos/serviços",
-      "Elaborar propostas comerciais personalizadas",
-      "Negociar contratos e fechar vendas",
-      "Manter relacionamento com clientes atuais"
-    ],
-    requirements: [
-      "Experiência com vendas consultivas B2B",
-      "Conhecimento em técnicas de prospecção e negociação",
-      "Habilidade com apresentações e propostas comerciais",
-      "Experiência com CRM e gestão de pipeline de vendas"
-    ],
-    differentials: [
-      "Experiência no setor de marketing digital ou tecnologia",
-      "Carteira de clientes ativa",
-      "Conhecimento em metodologias de vendas como SPIN Selling"
-    ],
-    benefits: [
-      "Vale alimentação e refeição",
-      "Plano de saúde e odontológico",
-      "Comissões atrativas",
-      "Horário flexível e day-off no aniversário",
-      "Ambiente descontraído e colaborativo"
-    ]
-  },
-  {
-    id: 6,
-    title: "Assistente Administrativo",
-    department: "Administrativo",
-    location: "Maceió",
-    type: "Tempo Integral",
-    seniority: "Estágio",
-    employment: "CLT",
-    description: "Buscamos um assistente administrativo para auxiliar nas rotinas administrativas e financeiras da empresa.",
-    activities: [
-      "Organizar documentos e processos administrativos",
-      "Auxiliar no controle financeiro e contas a pagar/receber",
-      "Dar suporte às equipes internas",
-      "Realizar atendimento a fornecedores e prestadores",
-      "Auxiliar na organização de eventos e reuniões"
-    ],
-    requirements: [
-      "Formação em Administração ou áreas correlatas",
-      "Conhecimento em rotinas administrativas e financeiras",
-      "Habilidade com organização e gestão de documentos",
-      "Experiência com atendimento e suporte interno"
-    ],
-    differentials: [
-      "Conhecimento em ferramentas de gestão financeira",
-      "Experiência em empresas de tecnologia ou agências",
-      "Conhecimento em inglês"
-    ],
-    benefits: [
-      "Vale alimentação e refeição",
-      "Plano de saúde e odontológico",
-      "Bônus por performance",
-      "Horário flexível e day-off no aniversário",
-      "Ambiente descontraído e colaborativo"
-    ]
-  }
 ];
 
 const JobSearch = () => {
-  const [selectedDepartment, setSelectedDepartment] = useState("Todas as áreas");
-  const [selectedLocation, setSelectedLocation] = useState("Maceió");
-  const [selectedSeniority, setSelectedSeniority] = useState("Todos os níveis");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredJobs, setFilteredJobs] = useState<Job[]>(jobsData);
+  const [jobs, setJobs] = useState<Job[]>(initialJobs);
+  const [filteredJobs, setFilteredJobs] = useState<Job[]>(initialJobs);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filters, setFilters] = useState({
+    departments: [] as string[],
+    locations: [] as string[],
+    types: [] as string[],
+    seniorities: [] as string[],
+    employments: [] as string[] // Added employment filter
+  });
   const [showFilters, setShowFilters] = useState(false);
-  const searchSectionRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Filtrar vagas com base nos critérios selecionados
-    const filtered = jobsData.filter(job => {
-      const matchesDepartment = selectedDepartment === "Todas as áreas" || job.department === selectedDepartment;
-      const matchesLocation = job.location === selectedLocation;
-      const matchesSeniority = selectedSeniority === "Todos os níveis" || job.seniority === selectedSeniority;
-      const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                            job.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            job.department.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      return matchesDepartment && matchesLocation && matchesSeniority && (searchTerm === "" || matchesSearch);
-    });
+  // Function to fetch jobs from Bitrix24 API
+  const fetchJobsFromBitrix = async () => {
+    setLoading(true);
+    setError(null);
     
-    setFilteredJobs(filtered);
-  }, [selectedDepartment, selectedLocation, selectedSeniority, searchTerm]);
+    try {
+      // This would be replaced with an actual API call to Bitrix24
+      // For demonstration, we'll simulate a fetch with a timeout
+      setTimeout(() => {
+        // In a real implementation, this would be data from the Bitrix24 API
+        console.log('Fetched jobs from Bitrix24');
+        setJobs(initialJobs);
+        setFilteredJobs(initialJobs);
+        setLoading(false);
+      }, 1000);
+      
+      // Example of real fetch (commented out):
+      /*
+      const response = await fetch('https://yourcompany.bitrix24.com/rest/1/YOUR_WEBHOOK_TOKEN/lists.element.get', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          IBLOCK_TYPE_ID: 'lists',
+          IBLOCK_ID: 'YOUR_JOB_LIST_ID', 
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch jobs from Bitrix24');
+      }
+      
+      const data = await response.json();
+      
+      // Transform Bitrix24 data to our job format
+      const transformedJobs = data.result.map(item => ({
+        id: item.ID,
+        bitrixJobId: item.ID,
+        title: item.PROPERTY_VALUES.TITLE,
+        department: item.PROPERTY_VALUES.DEPARTMENT,
+        location: item.PROPERTY_VALUES.LOCATION,
+        type: item.PROPERTY_VALUES.TYPE,
+        seniority: item.PROPERTY_VALUES.SENIORITY,
+        employment: item.PROPERTY_VALUES.EMPLOYMENT,
+        description: item.PROPERTY_VALUES.DESCRIPTION,
+        activities: item.PROPERTY_VALUES.ACTIVITIES?.split('\n') || [],
+        requirements: item.PROPERTY_VALUES.REQUIREMENTS?.split('\n') || [],
+        differentials: item.PROPERTY_VALUES.DIFFERENTIALS?.split('\n') || [],
+        benefits: item.PROPERTY_VALUES.BENEFITS?.split('\n') || [],
+      }));
+      
+      setJobs(transformedJobs);
+      setFilteredJobs(transformedJobs);
+      */
+      
+    } catch (err) {
+      console.error('Error fetching jobs:', err);
+      setError('Não foi possível carregar as vagas. Tente novamente mais tarde.');
+      toast.error('Erro ao carregar vagas do Bitrix24');
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  // Call this function when the component mounts to load jobs
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('opacity-100', 'translate-y-0');
-            entry.target.classList.remove('opacity-0', 'translate-y-8');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (searchSectionRef.current) observer.observe(searchSectionRef.current);
-
-    return () => {
-      if (searchSectionRef.current) observer.unobserve(searchSectionRef.current);
-    };
+    fetchJobsFromBitrix();
   }, []);
 
+  // Extract unique filter options from jobs
+  const getUniqueFilterOptions = () => {
+    const departments = [...new Set(jobs.map(job => job.department))];
+    const locations = [...new Set(jobs.map(job => job.location))];
+    const types = [...new Set(jobs.map(job => job.type))];
+    const seniorities = [...new Set(jobs.map(job => job.seniority))];
+    const employments = [...new Set(jobs.map(job => job.employment))];
+    
+    return { departments, locations, types, seniorities, employments };
+  };
+
+  const filterOptions = getUniqueFilterOptions();
+
+  // Handle filter changes
+  const toggleFilter = (category: 'departments' | 'locations' | 'types' | 'seniorities' | 'employments', value: string) => {
+    setFilters(prev => {
+      const currentFilters = [...prev[category]];
+      
+      if (currentFilters.includes(value)) {
+        return {
+          ...prev,
+          [category]: currentFilters.filter(item => item !== value)
+        };
+      } else {
+        return {
+          ...prev,
+          [category]: [...currentFilters, value]
+        };
+      }
+    });
+  };
+
+  // Apply filters and search
+  useEffect(() => {
+    let result = [...jobs];
+    
+    // Apply search query
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(job => 
+        job.title.toLowerCase().includes(query) || 
+        job.description.toLowerCase().includes(query) ||
+        job.department.toLowerCase().includes(query)
+      );
+    }
+    
+    // Apply department filters
+    if (filters.departments.length > 0) {
+      result = result.filter(job => filters.departments.includes(job.department));
+    }
+    
+    // Apply location filters
+    if (filters.locations.length > 0) {
+      result = result.filter(job => filters.locations.includes(job.location));
+    }
+    
+    // Apply type filters
+    if (filters.types.length > 0) {
+      result = result.filter(job => filters.types.includes(job.type));
+    }
+    
+    // Apply seniority filters
+    if (filters.seniorities.length > 0) {
+      result = result.filter(job => filters.seniorities.includes(job.seniority));
+    }
+    
+    // Apply employment filters
+    if (filters.employments.length > 0) {
+      result = result.filter(job => filters.employments.includes(job.employment));
+    }
+    
+    setFilteredJobs(result);
+  }, [searchQuery, filters, jobs]);
+
+  // Clear all filters
+  const clearFilters = () => {
+    setFilters({
+      departments: [],
+      locations: [],
+      types: [],
+      seniorities: [],
+      employments: []
+    });
+    setSearchQuery('');
+  };
+
+  const anyFiltersActive = 
+    searchQuery || 
+    filters.departments.length > 0 || 
+    filters.locations.length > 0 || 
+    filters.types.length > 0 || 
+    filters.seniorities.length > 0 || 
+    filters.employments.length > 0;
+
   return (
-    <div id="vagas" className="yk-gradient-bg py-16 md:py-24">
+    <div className="bg-yellowkite-dark py-16 md:py-24" id="vagas-abertas">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div 
-          className="max-w-4xl mx-auto opacity-0 translate-y-8 transition-all duration-700 ease-out"
-          ref={searchSectionRef}
-        >
-          <div className="text-center mb-12">
-            <h2 className="yk-section-title">Nossas Vagas Abertas</h2>
-            <p className="yk-section-subtitle">
-              Encontre a oportunidade perfeita para você iniciar ou continuar sua jornada na Yellow Kite.
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-white">Vagas Abertas</h2>
+            <p className="text-lg text-gray-400 mb-6">
+              Descubra as oportunidades disponíveis na Yellow Kite e junte-se à nossa equipe.
             </p>
-          </div>
-          
-          <div className="bg-white rounded-xl shadow-lg p-6 mb-12 backdrop-blur-sm bg-white/90 border border-gray-100">
-            <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
-              <div className="relative flex-grow">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-400" />
+            
+            {/* Manual refresh button to sync with Bitrix24 */}
+            <Button
+              variant="outline"
+              className="mb-6 border-yellowkite-primary text-yellowkite-primary hover:bg-yellowkite-primary/10"
+              onClick={() => {
+                toast.info('Sincronizando com Bitrix24...');
+                fetchJobsFromBitrix();
+              }}
+              disabled={loading}
+            >
+              {loading ? 'Carregando...' : 'Sincronizar com Bitrix24'}
+            </Button>
+            
+            {/* Search and filter */}
+            <div className="bg-yellowkite-darker p-4 rounded-lg shadow-lg mb-8">
+              <div className="flex flex-col sm:flex-row gap-4 mb-4">
+                <div className="relative flex-grow">
+                  <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                    <Search className="h-5 w-5 text-gray-500" />
+                  </div>
+                  <Input
+                    type="text"
+                    placeholder="Buscar vagas..."
+                    className="pl-10 bg-yellowkite-dark/50 border-yellowkite-dark/80 text-white placeholder:text-gray-500"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
                 </div>
-                <input
-                  type="text"
-                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-yellowkite-primary focus:border-yellowkite-primary transition duration-150 ease-in-out"
-                  placeholder="Buscar por palavra-chave..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
+                <Button
+                  onClick={() => setShowFilters(!showFilters)}
+                  variant="outline"
+                  className="border-yellowkite-primary text-yellowkite-primary hover:bg-yellowkite-primary/10"
+                >
+                  <Filter className="h-5 w-5 mr-2" />
+                  Filtros {showFilters ? 'menos' : 'mais'}
+                </Button>
+                
+                {anyFiltersActive && (
+                  <Button
+                    onClick={clearFilters}
+                    variant="ghost"
+                    className="text-gray-400 hover:text-white"
+                  >
+                    <X className="h-5 w-5 mr-2" />
+                    Limpar
+                  </Button>
+                )}
               </div>
               
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="inline-flex items-center px-4 py-3 border border-yellowkite-primary rounded-lg text-sm font-medium text-yellowkite-primary bg-white hover:bg-yellowkite-primary/5 transition-all duration-300"
-              >
-                <Filter className="h-5 w-5 mr-2" />
-                Filtros
-              </button>
+              {/* Filter badges */}
+              {anyFiltersActive && (
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {searchQuery && (
+                    <Badge variant="outline" className="bg-yellowkite-primary/20 text-yellowkite-primary border-yellowkite-primary/30">
+                      Busca: {searchQuery}
+                      <button 
+                        className="ml-2 hover:text-white" 
+                        onClick={() => setSearchQuery('')}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  )}
+                  {filters.departments.map(dept => (
+                    <Badge key={dept} variant="outline" className="bg-yellowkite-primary/20 text-yellowkite-primary border-yellowkite-primary/30">
+                      {dept}
+                      <button 
+                        className="ml-2 hover:text-white" 
+                        onClick={() => toggleFilter('departments', dept)}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                  {filters.locations.map(loc => (
+                    <Badge key={loc} variant="outline" className="bg-yellowkite-secondary/20 text-yellowkite-secondary border-yellowkite-secondary/30">
+                      {loc}
+                      <button 
+                        className="ml-2 hover:text-white" 
+                        onClick={() => toggleFilter('locations', loc)}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                  {filters.types.map(type => (
+                    <Badge key={type} variant="outline" className="bg-yellowkite-accent/20 text-yellowkite-accent border-yellowkite-accent/30">
+                      {type}
+                      <button 
+                        className="ml-2 hover:text-white" 
+                        onClick={() => toggleFilter('types', type)}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                  {filters.seniorities.map(seniority => (
+                    <Badge key={seniority} variant="outline" className="bg-green-700/20 text-green-500 border-green-700/30">
+                      {seniority}
+                      <button 
+                        className="ml-2 hover:text-white" 
+                        onClick={() => toggleFilter('seniorities', seniority)}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                  {filters.employments.map(employment => (
+                    <Badge key={employment} variant="outline" className="bg-purple-700/20 text-purple-500 border-purple-700/30">
+                      {employment}
+                      <button 
+                        className="ml-2 hover:text-white" 
+                        onClick={() => toggleFilter('employments', employment)}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  ))}
+                </div>
+              )}
+              
+              {/* Expanded filter options */}
+              {showFilters && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 pt-4 border-t border-yellowkite-dark/80 animate-fade-in">
+                  <div>
+                    <h3 className="font-medium text-white mb-2">Departamento</h3>
+                    <div className="space-y-1">
+                      {filterOptions.departments.map(dept => (
+                        <div key={dept} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            id={`dept-${dept}`}
+                            checked={filters.departments.includes(dept)}
+                            onChange={() => toggleFilter('departments', dept)}
+                            className="mr-2 accent-yellowkite-primary h-4 w-4"
+                          />
+                          <label htmlFor={`dept-${dept}`} className="text-gray-400 hover:text-white cursor-pointer text-sm">
+                            {dept}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-medium text-white mb-2">Localização</h3>
+                    <div className="space-y-1">
+                      {filterOptions.locations.map(loc => (
+                        <div key={loc} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            id={`loc-${loc}`}
+                            checked={filters.locations.includes(loc)}
+                            onChange={() => toggleFilter('locations', loc)}
+                            className="mr-2 accent-yellowkite-secondary h-4 w-4"
+                          />
+                          <label htmlFor={`loc-${loc}`} className="text-gray-400 hover:text-white cursor-pointer text-sm">
+                            {loc}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-medium text-white mb-2">Tipo</h3>
+                    <div className="space-y-1">
+                      {filterOptions.types.map(type => (
+                        <div key={type} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            id={`type-${type}`}
+                            checked={filters.types.includes(type)}
+                            onChange={() => toggleFilter('types', type)}
+                            className="mr-2 accent-yellowkite-accent h-4 w-4"
+                          />
+                          <label htmlFor={`type-${type}`} className="text-gray-400 hover:text-white cursor-pointer text-sm">
+                            {type}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-medium text-white mb-2">Senioridade</h3>
+                    <div className="space-y-1">
+                      {filterOptions.seniorities.map(seniority => (
+                        <div key={seniority} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            id={`seniority-${seniority}`}
+                            checked={filters.seniorities.includes(seniority)}
+                            onChange={() => toggleFilter('seniorities', seniority)}
+                            className="mr-2 accent-green-500 h-4 w-4"
+                          />
+                          <label htmlFor={`seniority-${seniority}`} className="text-gray-400 hover:text-white cursor-pointer text-sm">
+                            {seniority}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-medium text-white mb-2">Regime</h3>
+                    <div className="space-y-1">
+                      {filterOptions.employments.map(employment => (
+                        <div key={employment} className="flex items-center">
+                          <input
+                            type="checkbox"
+                            id={`employment-${employment}`}
+                            checked={filters.employments.includes(employment)}
+                            onChange={() => toggleFilter('employments', employment)}
+                            className="mr-2 accent-purple-500 h-4 w-4"
+                          />
+                          <label htmlFor={`employment-${employment}`} className="text-gray-400 hover:text-white cursor-pointer text-sm">
+                            {employment}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
-            
-            {showFilters && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in">
-                <div>
-                  <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-1">
-                    Área
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="department"
-                      className="block w-full pl-3 pr-10 py-3 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-yellowkite-primary focus:border-yellowkite-primary"
-                      value={selectedDepartment}
-                      onChange={(e) => setSelectedDepartment(e.target.value)}
-                    >
-                      {departments.map((dept) => (
-                        <option key={dept} value={dept}>
-                          {dept}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                          fillRule="evenodd"
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
-                    Localização
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="location"
-                      className="block w-full pl-3 pr-10 py-3 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-yellowkite-primary focus:border-yellowkite-primary"
-                      value={selectedLocation}
-                      onChange={(e) => setSelectedLocation(e.target.value)}
-                    >
-                      {locations.map((loc) => (
-                        <option key={loc} value={loc}>
-                          {loc}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                          fillRule="evenodd"
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="seniority" className="block text-sm font-medium text-gray-700 mb-1">
-                    Senioridade
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="seniority"
-                      className="block w-full pl-3 pr-10 py-3 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-yellowkite-primary focus:border-yellowkite-primary"
-                      value={selectedSeniority}
-                      onChange={(e) => setSelectedSeniority(e.target.value)}
-                    >
-                      {seniorityLevels.map((level) => (
-                        <option key={level} value={level}>
-                          {level}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                      <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                          fillRule="evenodd"
-                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
           
-          <div className="space-y-6">
-            {filteredJobs.length > 0 ? (
-              filteredJobs.map((job) => (
-                <JobCard key={job.id} job={job} />
-              ))
-            ) : (
-              <div className="text-center py-12 bg-white rounded-xl border border-gray-200">
-                <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                  <BriefcaseIcon className="h-8 w-8 text-gray-400" />
+          {/* Error message */}
+          {error && (
+            <div className="text-center p-6 bg-red-900/20 border border-red-900 rounded-lg mb-8">
+              <p className="text-red-400">{error}</p>
+              <Button 
+                onClick={fetchJobsFromBitrix} 
+                variant="outline" 
+                className="mt-4 border-red-500 text-red-400 hover:bg-red-900/10"
+              >
+                Tentar novamente
+              </Button>
+            </div>
+          )}
+          
+          {/* Loading state */}
+          {loading && (
+            <div className="text-center p-12">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-yellowkite-primary mb-4"></div>
+              <p className="text-gray-400">Carregando vagas...</p>
+            </div>
+          )}
+          
+          {/* Job list */}
+          {!loading && !error && (
+            <div className="space-y-6">
+              {filteredJobs.length > 0 ? (
+                filteredJobs.map(job => (
+                  <JobCard key={job.id} job={job} />
+                ))
+              ) : (
+                <div className="text-center py-12 bg-yellowkite-darker/50 rounded-xl border border-yellowkite-dark/80">
+                  <p className="text-gray-400 mb-2">Nenhuma vaga encontrada com os filtros atuais.</p>
+                  <Button 
+                    onClick={clearFilters} 
+                    variant="outline" 
+                    className="border-yellowkite-primary text-yellowkite-primary hover:bg-yellowkite-primary/10"
+                  >
+                    Limpar filtros
+                  </Button>
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-2">Nenhuma vaga encontrada</h3>
-                <p className="text-gray-500 max-w-md mx-auto">
-                  Não encontramos vagas com os critérios selecionados. Tente ajustar seus filtros ou inscreva-se em nosso banco de talentos.
-                </p>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
