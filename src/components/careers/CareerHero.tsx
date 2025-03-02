@@ -28,6 +28,15 @@ const CareerHero = () => {
     };
   }, []);
 
+  // Função para rolar suavemente até a seção de vagas
+  const scrollToJobs = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const jobsSection = document.getElementById('vagas');
+    if (jobsSection) {
+      jobsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Overlay de fundo escuro */}
@@ -55,6 +64,7 @@ const CareerHero = () => {
             </p>
             <a 
               href="#vagas" 
+              onClick={scrollToJobs}
               className="inline-flex items-center px-8 py-4 bg-yellowkite-primary text-black font-bold rounded-full hover:bg-yellowkite-primary/90 transition-all transform hover:scale-105"
             >
               Conheça as vagas
