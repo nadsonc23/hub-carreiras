@@ -121,20 +121,20 @@ const JobSearch = () => {
   }, []);
 
   return (
-    <div id="vagas" className="bg-gray-50 py-16 md:py-24">
+    <div id="vagas" className="yk-gradient-bg py-16 md:py-24">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div 
           className="max-w-4xl mx-auto opacity-0 translate-y-8 transition-all duration-700 ease-out"
           ref={searchSectionRef}
         >
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Nossas Vagas Abertas</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
+            <h2 className="yk-section-title">Nossas Vagas Abertas</h2>
+            <p className="yk-section-subtitle">
               Encontre a oportunidade perfeita para você iniciar ou continuar sua jornada na Yellow Kite.
             </p>
           </div>
           
-          <div className="bg-white rounded-xl shadow-lg p-6 mb-12">
+          <div className="bg-white rounded-xl shadow-lg p-6 mb-12 backdrop-blur-sm bg-white/90 border border-gray-100">
             <div className="flex flex-col md:flex-row md:items-center gap-4 mb-6">
               <div className="relative flex-grow">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -151,7 +151,7 @@ const JobSearch = () => {
               
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="inline-flex items-center px-4 py-3 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary transition duration-150 ease-in-out"
+                className="inline-flex items-center px-4 py-3 border border-yellowkite-primary rounded-lg text-sm font-medium text-yellowkite-primary bg-white hover:bg-yellowkite-primary/5 transition-all duration-300"
               >
                 <Filter className="h-5 w-5 mr-2" />
                 Filtros

@@ -18,8 +18,8 @@ const JobCard = ({ job }: JobProps) => {
 
   return (
     <div 
-      className={`bg-white rounded-xl border border-gray-200 overflow-hidden transition-all duration-300 ${
-        isExpanded ? 'shadow-md' : 'hover:shadow-sm'
+      className={`yk-card transition-all duration-300 ${
+        isExpanded ? 'shadow-lg' : 'hover:shadow-md'
       }`}
     >
       <div 
@@ -31,7 +31,7 @@ const JobCard = ({ job }: JobProps) => {
             <div className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellowkite-primary/10 text-yellowkite-primary mb-3">
               {job.department}
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">{job.title}</h3>
+            <h3 className="text-xl font-semibold text-yellowkite-dark mb-2">{job.title}</h3>
             <div className="flex flex-wrap gap-4 text-sm text-gray-500">
               <div className="flex items-center">
                 <MapPin className="h-4 w-4 mr-1" />
@@ -66,7 +66,7 @@ const JobCard = ({ job }: JobProps) => {
           <div className="flex flex-wrap gap-3">
             <a
               href={`/careers/job/${job.id}`}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-yellowkite-primary hover:bg-yellowkite-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary"
+              className="inline-flex items-center px-4 py-2 bg-yellowkite-primary text-white rounded-md shadow-sm hover:bg-yellowkite-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary transition-all duration-300"
             >
               Ver detalhes
             </a>
@@ -74,7 +74,7 @@ const JobCard = ({ job }: JobProps) => {
               href={`https://forms.yellowkite.com.br/job/${job.id}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 border border-yellowkite-primary text-sm font-medium rounded-md text-yellowkite-primary bg-white hover:bg-yellowkite-primary/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary"
+              className="inline-flex items-center px-4 py-2 border border-yellowkite-primary text-sm font-medium rounded-md text-yellowkite-primary bg-white hover:bg-yellowkite-primary/5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary transition-all duration-300"
             >
               Candidatar-se
             </a>
