@@ -1,3 +1,4 @@
+
 import { useEffect } from 'react';
 import NavBar from '@/components/NavBar';
 import CareerHero from '@/components/careers/CareerHero';
@@ -34,9 +35,11 @@ const Careers = () => {
       <NavBar />
       
       <main>
+        {/* Hero section (full screen) */}
         <CareerHero />
         
-        <section className="fade-in-section">
+        {/* Nossa Cultura e Perfil Profissional */}
+        <section className="fade-in-section" id="vagas">
           <div className="bg-yellowkite-dark/80 py-16 md:py-24 border-y border-yellowkite-dark/50">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
               <div className="max-w-3xl mx-auto text-center">
