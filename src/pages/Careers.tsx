@@ -5,6 +5,7 @@ import CareerHero from '../components/careers/CareerHero';
 import JobSearch from '../components/careers/JobSearch';
 import TalentPool from '../components/careers/TalentPool';
 import CompanyCulture from '../components/careers/CompanyCulture';
+import { Lightbulb, Users, Heart } from 'lucide-react';
 
 const Careers = () => {
   useEffect(() => {
@@ -54,24 +55,42 @@ const Careers = () => {
                   Na Yellow Kite, buscamos pessoas apaixonadas, criativas e com sede de conhecimento. Valorizamos a diversidade de pensamentos e experiências, pois acreditamos que as melhores soluções nascem da colaboração entre diferentes perspectivas.
                 </p>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
-                  <div className="bg-yellowkite-dark/70 p-6 rounded-xl shadow-sm border border-yellowkite-dark/50 hover:shadow-md hover:shadow-yellowkite-primary/10 transition-all duration-300">
-                    <h3 className="text-xl font-semibold mb-3 text-yellowkite-primary">Inovadores</h3>
-                    <p className="text-gray-400">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                  <div className="bg-gradient-to-br from-yellowkite-dark/90 to-yellowkite-dark border-2 border-yellowkite-primary/30 p-6 rounded-xl shadow-lg hover:shadow-yellowkite-primary/20 transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden">
+                    <div className="absolute inset-0 bg-yellowkite-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="flex items-center mb-4">
+                      <div className="bg-yellowkite-primary/10 p-3 rounded-lg mr-4">
+                        <Lightbulb className="text-yellowkite-primary h-7 w-7" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-yellowkite-primary group-hover:text-yellowkite-primary/90 transition-colors">Inovadores</h3>
+                    </div>
+                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors z-10 relative">
                       Procuramos pessoas que pensam fora da caixa e não têm medo de propor novas ideias e abordagens.
                     </p>
                   </div>
                   
-                  <div className="bg-yellowkite-dark/70 p-6 rounded-xl shadow-sm border border-yellowkite-dark/50 hover:shadow-md hover:shadow-yellowkite-secondary/10 transition-all duration-300">
-                    <h3 className="text-xl font-semibold mb-3 text-yellowkite-secondary">Colaborativos</h3>
-                    <p className="text-gray-400">
+                  <div className="bg-gradient-to-br from-yellowkite-dark/90 to-yellowkite-dark border-2 border-yellowkite-secondary/30 p-6 rounded-xl shadow-lg hover:shadow-yellowkite-secondary/20 transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden">
+                    <div className="absolute inset-0 bg-yellowkite-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="flex items-center mb-4">
+                      <div className="bg-yellowkite-secondary/10 p-3 rounded-lg mr-4">
+                        <Users className="text-yellowkite-secondary h-7 w-7" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-yellowkite-secondary group-hover:text-yellowkite-secondary/90 transition-colors">Colaborativos</h3>
+                    </div>
+                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors z-10 relative">
                       Trabalhamos em equipe e valorizamos quem sabe ouvir, contribuir e crescer junto com os outros.
                     </p>
                   </div>
                   
-                  <div className="bg-yellowkite-dark/70 p-6 rounded-xl shadow-sm border border-yellowkite-dark/50 hover:shadow-md hover:shadow-yellowkite-accent/10 transition-all duration-300">
-                    <h3 className="text-xl font-semibold mb-3 text-yellowkite-accent">Apaixonados</h3>
-                    <p className="text-gray-400">
+                  <div className="bg-gradient-to-br from-yellowkite-dark/90 to-yellowkite-dark border-2 border-yellowkite-accent/30 p-6 rounded-xl shadow-lg hover:shadow-yellowkite-accent/20 transition-all duration-500 transform hover:-translate-y-2 group relative overflow-hidden">
+                    <div className="absolute inset-0 bg-yellowkite-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="flex items-center mb-4">
+                      <div className="bg-yellowkite-accent/10 p-3 rounded-lg mr-4">
+                        <Heart className="text-yellowkite-accent h-7 w-7" />
+                      </div>
+                      <h3 className="text-xl font-semibold text-yellowkite-accent group-hover:text-yellowkite-accent/90 transition-colors">Apaixonados</h3>
+                    </div>
+                    <p className="text-gray-400 group-hover:text-gray-300 transition-colors z-10 relative">
                       Buscamos pessoas que amam o que fazem e se dedicam a entregar resultados excelentes em cada projeto.
                     </p>
                   </div>
