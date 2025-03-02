@@ -10,6 +10,7 @@ type Job = {
   location: string;
   type: string;
   seniority: string;
+  employment: string; // Added employment type (CLT or PJ)
   description: string;
   activities: string[];
   requirements: string[];
@@ -47,6 +48,7 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     seniority: "Pleno",
+    employment: "CLT",
     description: "Estamos buscando um analista de marketing digital para gerenciar campanhas de performance e analisar métricas de desempenho.",
     activities: [
       "Gerenciar campanhas de anúncios digitais",
@@ -81,6 +83,7 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     seniority: "Júnior",
+    employment: "PJ",
     description: "Procuramos um redator criativo para criar conteúdos envolventes para blogs, redes sociais e materiais promocionais.",
     activities: [
       "Produzir textos para blogs, sites e redes sociais",
@@ -115,6 +118,7 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     seniority: "Pleno",
+    employment: "CLT",
     description: "Buscamos um profissional para gerenciar nossas redes sociais, criar estratégias de conteúdo e engajamento.",
     activities: [
       "Gerenciar perfis em diversas plataformas de redes sociais",
@@ -149,6 +153,7 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     seniority: "Sênior",
+    employment: "PJ",
     description: "Estamos procurando um desenvolvedor front-end para criar interfaces responsivas e intuitivas para nossos clientes.",
     activities: [
       "Desenvolver interfaces de usuário responsivas e acessíveis",
@@ -183,6 +188,7 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     seniority: "Pleno",
+    employment: "CLT",
     description: "Procuramos um consultor de vendas para prospectar clientes e apresentar nossas soluções de marketing digital.",
     activities: [
       "Prospectar e qualificar leads de potenciais clientes",
@@ -217,6 +223,7 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     seniority: "Estágio",
+    employment: "CLT",
     description: "Buscamos um assistente administrativo para auxiliar nas rotinas administrativas e financeiras da empresa.",
     activities: [
       "Organizar documentos e processos administrativos",
