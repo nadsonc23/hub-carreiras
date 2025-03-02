@@ -64,12 +64,13 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				yellowkite: {
-					primary: "#9b87f5",     // Updated to purple from YellowKite site
-					secondary: "#7E69AB",   // Secondary purple
-					tertiary: "#6E59A5",    // Tertiary purple
-					accent: "#0EA5E9",      // Ocean blue accent
-					dark: "#1A1F2C",        // Dark purple/black
-					light: "#F1F0FB",       // Light purple/white
+					primary: "#DBA111",     // Gold primary color
+					secondary: "#B88A0E",   // Darker gold
+					tertiary: "#C9940D",    // Medium gold
+					accent: "#E4B426",      // Light gold
+					dark: "#1A1A1A",        // Dark background
+					darker: "#111111",      // Even darker background
+					light: "#F9F3E3",       // Light cream/gold
 					gray: "#8E9196"         // Neutral gray
 				}
 			},

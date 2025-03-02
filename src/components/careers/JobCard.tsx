@@ -18,8 +18,8 @@ const JobCard = ({ job }: JobProps) => {
 
   return (
     <div 
-      className={`bg-yellowkite-dark/70 border border-yellowkite-dark/80 rounded-xl transition-all duration-300 ${
-        isExpanded ? 'shadow-lg shadow-yellowkite-primary/20' : 'hover:shadow-md hover:shadow-yellowkite-primary/10'
+      className={`bg-yellowkite-darker/80 border border-yellowkite-dark/80 rounded-xl transition-all duration-300 ${
+        isExpanded ? 'shadow-lg shadow-yellowkite-primary/10' : 'hover:shadow-md hover:shadow-yellowkite-primary/5'
       }`}
     >
       <div 
@@ -66,7 +66,7 @@ const JobCard = ({ job }: JobProps) => {
           <div className="flex flex-wrap gap-3">
             <a
               href={`/careers/job/${job.id}`}
-              className="inline-flex items-center px-4 py-2 bg-yellowkite-primary text-white rounded-md shadow-sm hover:bg-yellowkite-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary transition-all duration-300"
+              className="inline-flex items-center px-4 py-2 bg-yellowkite-primary text-black rounded-md shadow-sm hover:bg-yellowkite-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellowkite-primary transition-all duration-300 font-medium"
             >
               Ver detalhes
             </a>

@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Montserrat:wght@400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -16,24 +16,24 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 262 83% 74%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 42 82% 47%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 260 31% 54%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 42 82% 37%;
+    --secondary-foreground: 0 0% 0%;
 
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 199 84% 55%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 42 80% 52%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 262 83% 74%;
+    --ring: 42 82% 47%;
 
     --radius: 0.5rem;
 
@@ -48,33 +48,33 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 0 0% 10%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 0 0% 10%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 0 0% 10%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 262 83% 74%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 42 82% 47%;
+    --primary-foreground: 0 0% 0%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 42 82% 37%;
+    --secondary-foreground: 0 0% 0%;
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
 
-    --accent: 199 84% 55%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 42 80% 52%;
+    --accent-foreground: 0 0% 0%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 42 82% 47%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -93,11 +93,12 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Montserrat', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
   }
   
   .text-balance {
@@ -105,7 +106,7 @@
   }
   
   .glassmorphism {
-    @apply bg-white/80 backdrop-blur-lg border border-white/20 shadow-lg;
+    @apply bg-yellowkite-dark/80 backdrop-blur-lg border border-yellowkite-dark/50 shadow-lg;
   }
   
   .section-padding {
@@ -122,26 +123,26 @@
 
   /* Add modern card and button styles */
   .yk-card {
-    @apply bg-white rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300;
+    @apply bg-yellowkite-dark rounded-xl shadow-md border border-yellowkite-dark/50 hover:shadow-lg transition-all duration-300;
   }
 
   .yk-button-primary {
-    @apply px-6 py-3 bg-yellowkite-primary text-white rounded-md shadow-md hover:bg-yellowkite-primary/90 transition-all duration-300;
+    @apply px-6 py-3 bg-yellowkite-primary text-black rounded-md shadow-md hover:bg-yellowkite-primary/90 transition-all duration-300 font-medium;
   }
 
   .yk-button-secondary {
-    @apply px-6 py-3 border border-yellowkite-secondary text-yellowkite-secondary rounded-md hover:bg-yellowkite-secondary/5 transition-all duration-300;
+    @apply px-6 py-3 border border-yellowkite-primary text-yellowkite-primary rounded-md hover:bg-yellowkite-primary/5 transition-all duration-300 font-medium;
   }
 
   .yk-gradient-bg {
-    @apply bg-gradient-to-br from-yellowkite-primary/30 via-yellowkite-secondary/20 to-yellowkite-accent/10;
+    @apply bg-gradient-to-br from-yellowkite-darker via-yellowkite-dark to-yellowkite-dark/90;
   }
 
   .yk-section-title {
-    @apply text-3xl md:text-4xl font-bold mb-6 text-yellowkite-dark;
+    @apply text-3xl md:text-4xl font-bold mb-6 text-white;
   }
 
   .yk-section-subtitle {
-    @apply text-lg text-gray-600 mb-12 max-w-2xl mx-auto;
+    @apply text-lg text-gray-400 mb-12 max-w-2xl mx-auto;
   }
 }
