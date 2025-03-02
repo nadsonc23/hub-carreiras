@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { MapPin, Clock, ChevronRight, ChevronDown, CheckCircle, Plus, Award, Coffee } from 'lucide-react';
+import { MapPin, Clock, ChevronRight, ChevronDown, CheckCircle, Plus, Award, Coffee, List } from 'lucide-react';
 
 type JobProps = {
   job: {
@@ -10,6 +10,7 @@ type JobProps = {
     location: string;
     type: string;
     description: string;
+    activities?: string[];
     requirements?: string[];
     differentials?: string[];
     benefits?: string[];
@@ -69,6 +70,20 @@ const JobCard = ({ job }: JobProps) => {
           
           {showDetails && (
             <div className="space-y-6 mb-6 animate-fade-in">
+              {job.activities && job.activities.length > 0 && (
+                <div>
+                  <h4 className="text-lg font-medium mb-3 text-white flex items-center">
+                    <List className="h-5 w-5 mr-2 text-yellowkite-primary" />
+                    Atividades
+                  </h4>
+                  <ul className="list-disc pl-5 text-gray-400 space-y-1">
+                    {job.activities.map((activity, index) => (
+                      <li key={index}>{activity}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              
               {job.requirements && job.requirements.length > 0 && (
                 <div>
                   <h4 className="text-lg font-medium mb-3 text-white flex items-center">

@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import { Search, Filter, MapPin, BriefcaseIcon } from 'lucide-react';
 import JobCard from './JobCard';
@@ -9,6 +10,7 @@ type Job = {
   location: string;
   type: string;
   description: string;
+  activities: string[];
   requirements: string[];
   differentials: string[];
   benefits: string[];
@@ -35,6 +37,13 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     description: "Estamos buscando um analista de marketing digital para gerenciar campanhas de performance e analisar métricas de desempenho.",
+    activities: [
+      "Gerenciar campanhas de anúncios digitais",
+      "Analisar métricas de performance e elaborar relatórios",
+      "Otimizar campanhas para melhorar ROI",
+      "Trabalhar com equipe de criação para desenvolvimento de materiais",
+      "Manter-se atualizado sobre tendências e melhores práticas"
+    ],
     requirements: [
       "Formação em Marketing, Publicidade ou áreas correlatas",
       "Experiência mínima de 2 anos com ferramentas de marketing digital",
@@ -61,6 +70,13 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     description: "Procuramos um redator criativo para criar conteúdos envolventes para blogs, redes sociais e materiais promocionais.",
+    activities: [
+      "Produzir textos para blogs, sites e redes sociais",
+      "Criar roteiros para vídeos e podcasts",
+      "Desenvolver e-books, whitepapers e outros materiais ricos",
+      "Revisar textos para garantir qualidade e coerência",
+      "Pesquisar tendências e assuntos relevantes para o público-alvo"
+    ],
     requirements: [
       "Formação em Jornalismo, Letras ou Comunicação",
       "Excelente capacidade de escrita e revisão",
@@ -87,6 +103,13 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     description: "Buscamos um profissional para gerenciar nossas redes sociais, criar estratégias de conteúdo e engajamento.",
+    activities: [
+      "Gerenciar perfis em diversas plataformas de redes sociais",
+      "Desenvolver calendário editorial e estratégia de conteúdo",
+      "Analisar métricas de desempenho e engajamento",
+      "Coordenar com designers para criação de materiais visuais",
+      "Responder comentários e interagir com a comunidade online"
+    ],
     requirements: [
       "Experiência com gestão de redes sociais",
       "Conhecimento em ferramentas de design como Photoshop e Canva",
@@ -113,6 +136,13 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     description: "Estamos procurando um desenvolvedor front-end para criar interfaces responsivas e intuitivas para nossos clientes.",
+    activities: [
+      "Desenvolver interfaces de usuário responsivas e acessíveis",
+      "Implementar designs de UI/UX em código",
+      "Otimizar aplicações para máximo desempenho",
+      "Colaborar com designers e desenvolvedores back-end",
+      "Realizar testes e garantir compatibilidade cross-browser"
+    ],
     requirements: [
       "Experiência com HTML, CSS e JavaScript",
       "Conhecimento em frameworks como React ou Vue.js",
@@ -139,6 +169,13 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     description: "Procuramos um consultor de vendas para prospectar clientes e apresentar nossas soluções de marketing digital.",
+    activities: [
+      "Prospectar e qualificar leads de potenciais clientes",
+      "Realizar apresentações e demonstrações de produtos/serviços",
+      "Elaborar propostas comerciais personalizadas",
+      "Negociar contratos e fechar vendas",
+      "Manter relacionamento com clientes atuais"
+    ],
     requirements: [
       "Experiência com vendas consultivas B2B",
       "Conhecimento em técnicas de prospecção e negociação",
@@ -165,6 +202,13 @@ const jobsData: Job[] = [
     location: "Maceió",
     type: "Tempo Integral",
     description: "Buscamos um assistente administrativo para auxiliar nas rotinas administrativas e financeiras da empresa.",
+    activities: [
+      "Organizar documentos e processos administrativos",
+      "Auxiliar no controle financeiro e contas a pagar/receber",
+      "Dar suporte às equipes internas",
+      "Realizar atendimento a fornecedores e prestadores",
+      "Auxiliar na organização de eventos e reuniões"
+    ],
     requirements: [
       "Formação em Administração ou áreas correlatas",
       "Conhecimento em rotinas administrativas e financeiras",
