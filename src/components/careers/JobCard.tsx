@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { MapPin, Clock, ChevronRight, ChevronDown, CheckCircle, Plus, Award, Coffee, List } from 'lucide-react';
+import { MapPin, Clock, ChevronRight, ChevronDown, CheckCircle, Plus, Award, Coffee, List, Briefcase } from 'lucide-react';
 
 type JobProps = {
   job: {
@@ -9,6 +9,7 @@ type JobProps = {
     department: string;
     location: string;
     type: string;
+    seniority: string;
     description: string;
     activities?: string[];
     requirements?: string[];
@@ -45,6 +46,10 @@ const JobCard = ({ job }: JobProps) => {
               <div className="flex items-center">
                 <Clock className="h-4 w-4 mr-1" />
                 {job.type}
+              </div>
+              <div className="flex items-center">
+                <Briefcase className="h-4 w-4 mr-1" />
+                {job.seniority}
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
 
 import { useState, useEffect, useRef } from 'react';
-import { Search, Filter, MapPin, BriefcaseIcon } from 'lucide-react';
+import { Search, Filter, MapPin, BriefcaseIcon, Briefcase } from 'lucide-react';
 import JobCard from './JobCard';
 
 type Job = {
@@ -9,6 +9,7 @@ type Job = {
   department: string;
   location: string;
   type: string;
+  seniority: string;
   description: string;
   activities: string[];
   requirements: string[];
@@ -28,6 +29,15 @@ const departments = [
 
 const locations = ["Maceió"];
 
+const seniorityLevels = [
+  "Todos os níveis",
+  "Estágio",
+  "Júnior",
+  "Pleno",
+  "Sênior",
+  "Especialista"
+];
+
 // Dados fictícios de vagas
 const jobsData: Job[] = [
   {
@@ -36,6 +46,7 @@ const jobsData: Job[] = [
     department: "Performance e Dados",
     location: "Maceió",
     type: "Tempo Integral",
+    seniority: "Pleno",
     description: "Estamos buscando um analista de marketing digital para gerenciar campanhas de performance e analisar métricas de desempenho.",
     activities: [
       "Gerenciar campanhas de anúncios digitais",
@@ -69,6 +80,7 @@ const jobsData: Job[] = [
     department: "Conteúdo",
     location: "Maceió",
     type: "Tempo Integral",
+    seniority: "Júnior",
     description: "Procuramos um redator criativo para criar conteúdos envolventes para blogs, redes sociais e materiais promocionais.",
     activities: [
       "Produzir textos para blogs, sites e redes sociais",
@@ -102,6 +114,7 @@ const jobsData: Job[] = [
     department: "Redes Sociais",
     location: "Maceió",
     type: "Tempo Integral",
+    seniority: "Pleno",
     description: "Buscamos um profissional para gerenciar nossas redes sociais, criar estratégias de conteúdo e engajamento.",
     activities: [
       "Gerenciar perfis em diversas plataformas de redes sociais",
@@ -135,6 +148,7 @@ const jobsData: Job[] = [
     department: "Tecnologia",
     location: "Maceió",
     type: "Tempo Integral",
+    seniority: "Sênior",
     description: "Estamos procurando um desenvolvedor front-end para criar interfaces responsivas e intuitivas para nossos clientes.",
     activities: [
       "Desenvolver interfaces de usuário responsivas e acessíveis",
@@ -168,6 +182,7 @@ const jobsData: Job[] = [
     department: "Comercial",
     location: "Maceió",
     type: "Tempo Integral",
+    seniority: "Pleno",
     description: "Procuramos um consultor de vendas para prospectar clientes e apresentar nossas soluções de marketing digital.",
     activities: [
       "Prospectar e qualificar leads de potenciais clientes",
@@ -201,6 +216,7 @@ const jobsData: Job[] = [
     department: "Administrativo",
     location: "Maceió",
     type: "Tempo Integral",
+    seniority: "Estágio",
     description: "Buscamos um assistente administrativo para auxiliar nas rotinas administrativas e financeiras da empresa.",
     activities: [
       "Organizar documentos e processos administrativos",
@@ -233,6 +249,7 @@ const jobsData: Job[] = [
 const JobSearch = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("Todas as áreas");
   const [selectedLocation, setSelectedLocation] = useState("Maceió");
+  const [selectedSeniority, setSelectedSeniority] = useState("Todos os níveis");
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredJobs, setFilteredJobs] = useState<Job[]>(jobsData);
   const [showFilters, setShowFilters] = useState(false);
@@ -243,15 +260,16 @@ const JobSearch = () => {
     const filtered = jobsData.filter(job => {
       const matchesDepartment = selectedDepartment === "Todas as áreas" || job.department === selectedDepartment;
       const matchesLocation = job.location === selectedLocation;
+      const matchesSeniority = selectedSeniority === "Todos os níveis" || job.seniority === selectedSeniority;
       const matchesSearch = job.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                             job.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
                             job.department.toLowerCase().includes(searchTerm.toLowerCase());
       
-      return matchesDepartment && matchesLocation && (searchTerm === "" || matchesSearch);
+      return matchesDepartment && matchesLocation && matchesSeniority && (searchTerm === "" || matchesSearch);
     });
     
     setFilteredJobs(filtered);
-  }, [selectedDepartment, selectedLocation, searchTerm]);
+  }, [selectedDepartment, selectedLocation, selectedSeniority, searchTerm]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -313,7 +331,7 @@ const JobSearch = () => {
             </div>
             
             {showFilters && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in">
                 <div>
                   <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-1">
                     Área
@@ -357,6 +375,35 @@ const JobSearch = () => {
                       {locations.map((loc) => (
                         <option key={loc} value={loc}>
                           {loc}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                      <svg className="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <label htmlFor="seniority" className="block text-sm font-medium text-gray-700 mb-1">
+                    Senioridade
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="seniority"
+                      className="block w-full pl-3 pr-10 py-3 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-yellowkite-primary focus:border-yellowkite-primary"
+                      value={selectedSeniority}
+                      onChange={(e) => setSelectedSeniority(e.target.value)}
+                    >
+                      {seniorityLevels.map((level) => (
+                        <option key={level} value={level}>
+                          {level}
                         </option>
                       ))}
                     </select>
